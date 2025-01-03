@@ -3,6 +3,7 @@
 #include "Light.h"
 #include "Button.h"
 #include "Devices.h"
+#include "Socket.h"
 #include <vector>
 #include <string>
 
@@ -14,7 +15,7 @@ public:
   void listDevices() const;
   void sortByName();
   void sortByDeviceType();
-  void addDevice(const std::string& deviceType, const std::string& deviceName);
+  void addDevice();
   void interactWithDevice(const std::string& deviceName);
   void displayMenu() const;
   void run(); // Entry point for the system

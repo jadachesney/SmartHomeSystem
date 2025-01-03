@@ -14,6 +14,21 @@ Light::Light(const std::string& name)
   : Devices(name), state(false), brightness(0), sleepTimer(0) {
 }
 
+#pragma region Viewing Functions
+void Light::quickView() const {
+  std::cout << name << " (" << getType() << "): "
+  << (state ? "On" : "Off") << ", Brightness: " << brightness << "%\n";
+}
+
+void Light::display() const {
+  std::cout << "Device Name: " << name << "\n"
+    << "Device Type: " << getType() << "\n"
+    << "Brightness: " << brightness << "%\n"
+    << "State: " << (state ? "On" : "Off") << "\n";
+}
+#pragma endregion
+
+#pragma region Light Functions
 void Light::turnOn() {
   if (!state) {
     state = true;
@@ -46,20 +61,8 @@ void Light::setSleepTimer(int minutes) {
     }).detach();
 }
 
-void Light::quickView() const {
-  std::string stateStr = state ? "on" : "off";
-  std::cout << name << " (Light): " << stateStr << ", Brightness: " << brightness << "%\n";
-}
-
 std::string Light::getType() const {
   return "Light";
-}
-
-void Light::display() const {
-  std::cout << "Device Name: " << name << "\n"
-    << "Device Type: Light\n"
-    << "Brightness: " << brightness << "%\n"
-    << "State: " << (state ? "On" : "Off") << "\n";
 }
 
 bool Light::getState() const {
@@ -99,3 +102,4 @@ void Light::pressOffButton() {
   }
   turnOff();
 }
+#pragma endregion

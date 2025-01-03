@@ -5,7 +5,7 @@
 
 SmartHomeSystem::SmartHomeSystem() {}
 
-// Load devices from a file
+#pragma region load devices
 void SmartHomeSystem::loadDevices(const std::string& filename) {
   std::ifstream file(filename);
   if (file.is_open()) {
@@ -16,7 +16,9 @@ void SmartHomeSystem::loadDevices(const std::string& filename) {
     file.close();
   }
 }
+#pragma endregion
 
+#pragma region save devices
 // Save devices to a file
 void SmartHomeSystem::saveDevices(const std::string& filename) {
   std::ofstream file(filename);
@@ -27,14 +29,18 @@ void SmartHomeSystem::saveDevices(const std::string& filename) {
     file.close();
   }
 }
+#pragma endregion
 
-void SmartHomeSystem::listDevices() const 
+#pragma region list devices
+void SmartHomeSystem::listDevices() const // WORKING ON THIS RN
 {
-  for (std::unique_ptr<Devices>& device : devices) {
-    device->display();
+  for (const auto& device : devices) {
+    device->quickView(); // quickView for quick summary, display() is for detailed summary
   }
 }
+#pragma endregion
 
+#pragma region sorting devices
 // Sort devices by name
 void SmartHomeSystem::sortByName() {
   std::sort(devices.begin(), devices.end(), [](const std::unique_ptr<Devices>& a, const std::unique_ptr<Devices>& b) {
@@ -51,15 +57,72 @@ void SmartHomeSystem::sortByDeviceType() {
     return a->getType() < b->getType();
     });
 }
+#pragma endregion
 
-// Add a new device
-void SmartHomeSystem::addDevice(const std::string& deviceType, const std::string& deviceName) {
-  if (deviceType == "Light") {
-    devices.push_back(std::make_unique<Light>(deviceName));
+#pragma region add device
+void SmartHomeSystem::addDevice() {
+  int deviceTypeChoice;
+  std::string deviceName;
+
+  std::string addMenu = R"(
+        Enter a Device Type
+        ------------------------
+        Please select a device:
+        1. Light
+        2. Socket
+        3. Speaker
+        4. Thermostat
+        5. Temperature & Humidity Sensor
+        6. Radiator Valve
+
+        9. Main Menu )";
+  std::cout << addMenu << std::endl;
+  std::cin >> deviceTypeChoice;
+
+  if (std::cin.fail() || deviceTypeChoice < 1 || deviceTypeChoice > 6) {
+    std::cin.clear(); 
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+    std::cout << "Invalid choice. Device not added.\n";
+    return;
   }
-  // Add other device types here
-}
 
+  // Step 2: Prompt for the device name
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
+  std::cout << "Enter the name of the device: ";
+  std::getline(std::cin, deviceName);
+
+  switch (deviceTypeChoice) {
+  case 1: // Light
+    devices.push_back(std::make_unique<Light>(deviceName));
+    std::cout << "Added Light: " << deviceName << "\n";
+    break;
+  case 2: // Socket
+    // not done
+    devices.push_back(std::make_unique<Socket>(deviceName));
+    std::cout << "Added Socket: " << deviceName << "\n";
+    break;
+  case 3: // Speaker
+    // not done
+    devices.push_back(std::make_unique<Speaker>(deviceName));
+    std::cout << "Added Speaker: " << deviceName << "\n";
+    break;
+  case 4: // Thermostat
+    //not done
+    break;
+  case 5: // temperature & humidity sensor
+    // not done
+    break;
+  case 6: // Radiator Valve
+    // not done
+    break;
+  default:
+    std::cout << "Invalid choice. Device not added.\n";
+    break;
+  }
+}
+#pragma endregion
+
+#pragma region interact devices
 // Interact with a specific device
 void SmartHomeSystem::interactWithDevice(const std::string& deviceName) {
   auto it = std::find_if(devices.begin(), devices.end(), [&deviceName](const std::unique_ptr<Devices>& device) {
@@ -69,7 +132,9 @@ void SmartHomeSystem::interactWithDevice(const std::string& deviceName) {
     // not done yet
   }
 }
+#pragma endregion
 
+#pragma region main menu
 // Display the main menu using a verbatim string, learnt this in Year One C# for readability
 void SmartHomeSystem::displayMenu() const {
   std::string menuMsg = R"(
@@ -103,36 +168,33 @@ void SmartHomeSystem::run() {
     }
 
     switch (selection) {
-    case 1: // Listing the devices 
+    case 1: // List all devices
       listDevices();
       break;
-    case 2:
-      sortByName(); // Sorting the devices by alphabetical order for name
+    case 2: // Sort devices by name
+      sortByName();
       break;
-    case 3:
-      sortByDeviceType(); // Sorting the devices by heating, lighting, etc (and then name as secondary)
+    case 3: // Sort devices by type
+      sortByDeviceType();
       break;
-    case 4: {
+    case 4: { // Interact with a specific device
       std::string deviceName;
-      std::cout << "Enter device name: ";
-      std::cin >> deviceName;
-      interactWithDevice(deviceName); 
+      std::cout << "Enter the device name to interact with: ";
+      std::cin.ignore();
+      std::getline(std::cin, deviceName);
+      interactWithDevice(deviceName);
       break;
     }
-    case 5: {
-      std::string deviceType, deviceName; // Adding a new device 
-      std::cout << "Enter device type: ";
-      std::cin >> deviceType;
-      std::cout << "Enter device name: ";
-      std::cin >> deviceName;
-      addDevice(deviceType, deviceName);
+    case 5: 
+      addDevice(); 
       break;
-    }
-    case 9: // Quit and save the devices before leaving 
-      saveDevices("devices.txt"); 
+    case 9: // Quit and save devices
+      saveDevices("devices.txt");
+      std::cout << "Devices saved. Exiting...\n";
       break;
     default:
-      std::cout << "Invalid option. Try again" << std::endl;
+      std::cout << "Invalid option. Try again." << std::endl;
     }
   } while (selection != 9);
 }
+#pragma endregion
