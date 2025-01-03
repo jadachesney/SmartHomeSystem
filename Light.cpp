@@ -3,6 +3,13 @@
 #include <thread>
 #include <chrono>
 
+/* I used the following link from stackoverflow to aid in formatting my light.
+https://stackoverflow.com/questions/71789390/c-light-switch-with-two-buttons-if-bar-do-x-set-foo-1-if-thing-and-foo-1
+From this, I was able to learn how to simulate the interaction of turning on and off the button which I had been struggling to understand.
+Although my output is different due to the coursework requirements, when the user indicates they want to turn on/off a light, the button will be
+"pressed" (simulated as we aren't using hardware). When the button is turned on for a device, e.g. Bedroom, the current brightness will be displayed.
+When the off button is "pressed", it will simply just display [switch on] so the user can turn it on if they want. */
+
 Light::Light(const std::string& name)
   : Devices(name), state(false), brightness(0), sleepTimer(0) {
 }

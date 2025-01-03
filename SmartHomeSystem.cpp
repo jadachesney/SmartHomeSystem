@@ -1,5 +1,6 @@
 #include "SmartHomeSystem.h"
 #include "Light.h"
+#include "Devices.h"
 #include <fstream>
 
 SmartHomeSystem::SmartHomeSystem() {}
@@ -27,15 +28,10 @@ void SmartHomeSystem::saveDevices(const std::string& filename) {
   }
 }
 
-// List all devices with detailed information
-void SmartHomeSystem::listDevices() const {
-  if (devices.empty()) {
-    std::cout << "No devices found." << std::endl;
-  }
-  else {
-    for (const auto& device : devices) {
-      device->display(); // Calls the `display()` function of each derived class
-    }
+void SmartHomeSystem::listDevices() const 
+{
+  for (std::unique_ptr<Devices>& device : devices) {
+    device->display();
   }
 }
 
@@ -74,7 +70,7 @@ void SmartHomeSystem::interactWithDevice(const std::string& deviceName) {
   }
 }
 
-// Display the main menu
+// Display the main menu using a verbatim string, learnt this in Year One C# for readability
 void SmartHomeSystem::displayMenu() const {
   std::string menuMsg = R"(
          Smart Home Device Menu
