@@ -127,10 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="RadiatorValve.cpp" />
-    <ClCompile Include="SmartDevice.cpp" />
+    <ClCompile Include="Devices.cpp" />
     <ClCompile Include="SmartHomeSystem.cpp" />
     <ClCompile Include="Socket.cpp" />
     <ClCompile Include="Speaker.cpp" />
@@ -138,9 +139,10 @@
     <ClCompile Include="Thermostat.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="RadiatorValve.h" />
-    <ClInclude Include="SmartDevice.h" />
+    <ClInclude Include="Devices.h" />
     <ClInclude Include="SmartHomeSystem.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="Speaker.h" />
