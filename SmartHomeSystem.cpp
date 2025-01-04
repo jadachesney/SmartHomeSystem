@@ -60,7 +60,7 @@ void SmartHomeSystem::sortByDeviceType() {
 #pragma endregion
 
 #pragma region add device
-void SmartHomeSystem::addDevice() {
+void SmartHomeSystem::addDevice(const std::string& deviceType, const std::string& deviceName) {
   int deviceTypeChoice;
   std::string deviceName;
 
@@ -87,38 +87,41 @@ void SmartHomeSystem::addDevice() {
   }
 
   // Step 2: Prompt for the device name
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
   std::cout << "Enter the name of the device: ";
   std::getline(std::cin, deviceName);
 
-  switch (deviceTypeChoice) {
-  case 1: // Light
-    devices.push_back(std::make_unique<Light>(deviceName));
-    std::cout << "Added Light: " << deviceName << "\n";
-    break;
-  case 2: // Socket
-    // not done
-    devices.push_back(std::make_unique<Socket>(deviceName));
-    std::cout << "Added Socket: " << deviceName << "\n";
-    break;
-  case 3: // Speaker
-    // not done
-    devices.push_back(std::make_unique<Speaker>(deviceName));
-    std::cout << "Added Speaker: " << deviceName << "\n";
-    break;
-  case 4: // Thermostat
-    //not done
-    break;
-  case 5: // temperature & humidity sensor
-    // not done
-    break;
-  case 6: // Radiator Valve
-    // not done
-    break;
-  default:
-    std::cout << "Invalid choice. Device not added.\n";
-    break;
-  }
+    switch (deviceTypeChoice) {
+    case 1: // Light
+      devices.push_back(std::make_unique<Light>(deviceName));
+      std::cout << "Added Light: " << deviceName << "\n";
+      break;
+    case 2: // Socket
+      // not done
+      std::cout << "Added Socket: " << deviceName << "\n";
+      break;
+    case 3: // Speaker
+      // not done
+      std::cout << "Added Speaker: " << deviceName << "\n";
+      break;
+    case 4: // Thermostat
+      //not done
+      std::cout << "Added Thermostat: " << deviceName << "\n";
+      break;
+    case 5: // temperature & humidity sensor
+      // not done
+      std::cout << "Added Temperature & Humidity Sensor: " << deviceName << "\n";
+      break;
+    case 6: // Radiator Valve
+      // not done
+      std::cout << "Added Radiator Valve: " << deviceName << "\n";
+      break; 
+    case 9: // Return to main menu
+
+    default:
+      std::cout << "Invalid choice. Device not added.\n";
+      break;
+    }
 }
 #pragma endregion
 
@@ -190,7 +193,6 @@ void SmartHomeSystem::run() {
       break;
     case 9: // Quit and save devices
       saveDevices("devices.txt");
-      std::cout << "Devices saved. Exiting...\n";
       break;
     default:
       std::cout << "Invalid option. Try again." << std::endl;

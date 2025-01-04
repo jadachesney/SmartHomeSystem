@@ -15,10 +15,10 @@ public:
   void listDevices() const;
   void sortByName();
   void sortByDeviceType();
-  void addDevice();
+  void addDevice(const std::string& deviceType, const std::string& deviceName);
   void interactWithDevice(const std::string& deviceName);
   void displayMenu() const;
-  void run(); // Entry point for the system
+  void run();
 
 private:
   std::vector<Light> lights;

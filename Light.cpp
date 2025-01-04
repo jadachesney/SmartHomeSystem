@@ -17,7 +17,7 @@ Light::Light(const std::string& name)
 #pragma region Viewing Functions
 void Light::quickView() const {
   std::cout << name << " (" << getType() << "): "
-  << (state ? "On" : "Off") << ", Brightness: " << brightness << "%\n";
+  << brightness << "Brightness," << (state ? "On" : "Off") << "%\n";
 }
 
 void Light::display() const {
